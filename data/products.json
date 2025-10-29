@@ -1,0 +1,45 @@
+[
+  {
+    "id": "AERO-30L",
+    "title": "🌱 Aeropónico 3D – 30 L (Básico)",
+    "price_clp": 149000,
+    "capacity_l": 30,
+    "footprint_cm": "45x45",
+    "stages": 1,
+    "nozzles": 4,
+    "pump": "12V / 2A",
+    "materials": "PLA+, PETG, PVC grado alimentario",
+    "img": "assets/img/aero30.jpg",
+    "model": "assets/models/aero_basic.glb",
+    "lead_time_days": 5
+  },
+  {
+    "id": "AERO-60L",
+    "title": "🌿 Aeropónico 3D – 60 L (Pro)",
+    "price_clp": 249000,
+    "capacity_l": 60,
+    "footprint_cm": "60x60",
+    "stages": 2,
+    "nozzles": 8,
+    "pump": "12V / 3A",
+    "materials": "PETG, ABS, PVC grado alimentario",
+    "img": "assets/img/aero60.jpg",
+    "model": "assets/models/aero_pro.glb",
+    "lead_time_days": 7,
+    "popular": true
+  },
+  {
+    "id": "AERO-120L",
+    "title": "🌳 Aeropónico 3D – 120 L (Maker Kit)",
+    "price_clp": 399000,
+    "capacity_l": 120,
+    "footprint_cm": "80x60",
+    "stages": 3,
+    "nozzles": 12,
+    "pump": "24V / 4A",
+    "materials": "PETG, ASA, PVC alimentario",
+    "img": "assets/img/aero120.jpg",
+    "model": "assets/models/aero_kit.glb",
+    "lead_time_days": 10
+  }
+]

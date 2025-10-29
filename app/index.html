@@ -1,0 +1,77 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App IoT — Aeropónicos 3D</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head><body>
+<header><div class="container nav"><div class="brand"><div class="logo"></div> App IoT</div><nav class="flex">
+<a class="btn" href="../index.html">🏠 Inicio</a></nav></div></header>
+<main class="container section" id="app">
+  <div id="gate">
+    <h1>🔒 Acceso restringido</h1>
+    <p class="mini">Ingresa tu <b>Licencia</b> (ej: LIC-DEMO-123456). La recibes tras la compra.</p>
+    <div class="flex"><input id="k" class="input" placeholder="LIC-XXXXXX"><button class="btn solid" onclick="enter()">Entrar</button></div>
+    <p class="mini"><a href="../pages/checkout.html">¿Aún no compras? Ir a pago</a></p>
+  </div>
+
+  <div id="dash" style="display:none">
+    <h1>🛰️ Telemetría DHT11 (ESP8266)</h1>
+    <div class="grid">
+      <article class="card"><div class="p"><h3>Temperatura</h3><canvas id="ct"></canvas></div></article>
+      <article class="card"><div class="p"><h3>Humedad</h3><canvas id="ch"></canvas></div></article>
+      <article class="card"><div class="p">
+        <h3>Endpoint</h3>
+        <p class="mini">Configura tu Google Apps Script/Firebase y pega el URL aquí:</p>
+        <input id="endpoint" class="input" placeholder="https://script.google.com/.../exec">
+        <div class="flex" style="margin-top:8px">
+          <button class="btn" onclick="saveEndpoint()">💾 Guardar</button>
+          <button class="btn" onclick="pull()">🔄 Actualizar</button>
+          <button class="btn" onclick="downloadCSV()">📤 Exportar CSV</button>
+        </div>
+      </div></article>
+      <article class="card"><div class="p">
+        <h3>Firmware (ESP8266 + DHT11)</h3>
+        <p class="mini">Copia el .ino desde <code>app/firmware/esp8266_dht11_iot.ino</code></p>
+        <pre class="mini">SSID, PASS, y URL del endpoint.</pre>
+      </div></article>
+    </div>
+  </div>
+</main>
+<script>
+async function validate(key){
+  const res = await fetch('../data/licenses.json'); const j = await res.json();
+  return j.valid_keys.includes(key) || key===localStorage.getItem('license_key');
+}
+async function enter(){
+  const key = document.getElementById('k').value.trim();
+  if(await validate(key)){ localStorage.setItem('license_key', key); document.getElementById('gate').style.display='none'; document.getElementById('dash').style.display='block'; init(); }
+  else alert('Licencia inválida');
+}
+function saveEndpoint(){ localStorage.setItem('iot_endpoint', document.getElementById('endpoint').value.trim()); alert('Guardado'); }
+async function pull(){
+  const cfg = await (await fetch('config.json')).json();
+  const endpoint = localStorage.getItem('iot_endpoint') || cfg.telemetry_endpoint || cfg.fallback;
+  const r = await fetch(endpoint); const data = await r.json();
+  renderCharts(data);
+}
+let gt, gh;
+function renderCharts(d){
+  const labels = d.map(x=> new Date(x.ts).toLocaleTimeString());
+  const t = d.map(x=> x.temp); const h = d.map(x=> x.hum);
+  if(gt) gt.destroy(); if(gh) gh.destroy();
+  gt = new Chart(document.getElementById('ct'), {type:'line', data:{labels, datasets:[{label:'Temp (°C)', data:t}]}});
+  gh = new Chart(document.getElementById('ch'), {type:'line', data:{labels, datasets:[{label:'Humedad (%)', data:h}]}});
+}
+function downloadCSV(){
+  const rows = window._last || []; const lines = ['ts,temp,hum', ...rows.map(x=>`${x.ts},${x.temp},${x.hum}`)];
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'}); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='telemetria.csv'; a.click();
+}
+async function init(){
+  document.getElementById('endpoint').value = localStorage.getItem('iot_endpoint')||'';
+  const cfg = await (await fetch('config.json')).json();
+  const endpoint = localStorage.getItem('iot_endpoint') || cfg.telemetry_endpoint || cfg.fallback;
+  const r = await fetch(endpoint); const data = await r.json(); window._last = data; renderCharts(data);
+}
+</script>
+</body></html>

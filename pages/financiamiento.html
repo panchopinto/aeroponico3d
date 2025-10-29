@@ -1,0 +1,32 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financiamiento — Aeropónicos 3D</title><link rel="stylesheet" href="../css/styles.css"></head><body>
+<header><div class="container nav"><div class="brand"><div class="logo"></div> Aeropónicos 3D</div><nav class="flex">
+<a class="btn" href="../index.html">🏠 Inicio</a></nav></div></header>
+<main class="container section">
+  <h1>💳 Financiamiento & Preventa</h1>
+  <div class="grid">
+    <article class="card"><div class="p">
+      <h3>Formas</h3>
+      <ul class="mini">
+        <li>Cuotas con tarjeta (integrar Flow o MercadoPago).</li>
+        <li>Reserva con abono 20% y saldo contra entrega.</li>
+        <li>Precio educativo para liceos/universidades.</li>
+      </ul>
+    </div></article>
+    <article class="card"><div class="p">
+      <h3>Solicitar plan</h3>
+      <form class="grid" onsubmit="enviar(event)">
+        <input class="input" placeholder="Nombre" required>
+        <input class="input" placeholder="Correo" type="email" required>
+        <select class="input"><option>Preventa 20%</option><option>3 cuotas</option><option>6 cuotas</option></select>
+        <textarea class="input" placeholder="Comentario" rows="3"></textarea>
+        <button class="btn solid" type="submit">Enviar</button>
+      </form>
+    </div></article>
+  </div>
+</main>
+<script>
+function enviar(e){ e.preventDefault(); alert('Gracias, te contactaremos con el plan.'); }
+</script>
+</body></html>

@@ -1,0 +1,57 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurador — Aeropónicos 3D</title><link rel="stylesheet" href="../css/styles.css"></head><body>
+<header><div class="container nav"><div class="brand"><div class="logo"></div> Aeropónicos 3D</div><nav class="flex">
+<a class="btn" href="../index.html">🏠 Inicio</a></nav></div></header>
+<main class="container section">
+  <h1>🛠️ Configura tu equipo</h1>
+  <div class="grid">
+    <article class="card"><div class="p">
+      <label>Modelo</label>
+      <select class="input" id="modelo">
+        <option value="AERO-30L">30 L</option>
+        <option value="AERO-60L" selected>60 L</option>
+        <option value="AERO-120L">120 L</option>
+      </select>
+      <label style="margin-top:8px;display:block">Boquillas</label>
+      <select class="input" id="boq">
+        <option value="0">Estándar</option>
+        <option value="20000">Alta nebulización (+$20.000)</option>
+      </select>
+      <label style="margin-top:8px;display:block">Bomba</label>
+      <select class="input" id="bomba">
+        <option value="0">Estándar</option>
+        <option value="30000">Silenciosa PRO (+$30.000)</option>
+      </select>
+      <label style="margin-top:8px;display:block">Color</label>
+      <select class="input" id="color">
+        <option value="0">Negro</option>
+        <option value="5000">Blanco (+$5.000)</option>
+        <option value="8000">Verde PETG (+$8.000)</option>
+      </select>
+      <p class="price" id="precio">—</p>
+      <button class="btn solid" onclick="agregar()">➕ Agregar configurado</button>
+    </div></article>
+    <article class="card"><div class="p">
+      <h3>Notas</h3>
+      <ul class="mini">
+        <li>Los precios incluyen impresión 3D y ensamblaje.</li>
+        <li>Los upgrades afectan tiempo de fabricación.</li>
+      </ul>
+    </div></article>
+  </div>
+</main>
+<script>
+const fmtCLP = (n)=> new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
+let base = {'AERO-30L':149000,'AERO-60L':249000,'AERO-120L':399000};
+function calc(){ const total = base[modelo.value] + parseInt(boq.value)+parseInt(bomba.value)+parseInt(color.value); precio.textContent = fmtCLP(total); }
+function agregar(){
+  const id = document.getElementById('modelo').value;
+  const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  const ex = cart.find(x=>x.id===id); if(ex) ex.qty+=1; else cart.push({id, qty:1});
+  localStorage.setItem('cart', JSON.stringify(cart)); alert('Agregado al carrito');
+}
+const modelo = document.getElementById('modelo'), boq=document.getElementById('boq'), bomba=document.getElementById('bomba'), color=document.getElementById('color'), precio=document.getElementById('precio');
+[modelo,boq,bomba,color].forEach(el=> el.addEventListener('change', calc)); calc();
+</script>
+</body></html>

@@ -1,0 +1,4 @@
+{
+  "telemetry_endpoint": "",
+  "fallback": "app/mock/telemetry.json"
+}

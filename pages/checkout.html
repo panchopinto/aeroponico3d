@@ -1,0 +1,65 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pago — Aeropónicos 3D</title><link rel="stylesheet" href="../css/styles.css"></head><body>
+<header><div class="container nav"><div class="brand"><div class="logo"></div> Aeropónicos 3D</div><nav class="flex">
+<a class="btn" href="../index.html">🏠 Inicio</a></nav></div></header>
+<main class="container section">
+  <h1>💳 Pago</h1>
+  <div class="grid">
+    <article class="card"><div class="p">
+      <h3>Resumen</h3>
+      <pre id="resumen" class="mini"></pre>
+      <div class="notice">Al completar el pago, recibirás una <b>Licencia</b> para acceder a la App IoT.</div>
+    </div></article>
+    <article class="card"><div class="p">
+      <h3>Elegir método</h3>
+      <div class="flex">
+        <button class="btn solid" onclick="simular('Flow')">Flow (simulado)</button>
+        <button class="btn solid" onclick="simular('MercadoPago')">MercadoPago (simulado)</button>
+        <button class="btn" onclick="whatsapp()">WhatsApp</button>
+      </div>
+      <p class="mini">* Esta demo no procesa pagos reales. Reemplaza con tu integración.</p>
+    </div></article>
+    <article class="card"><div class="p">
+      <h3>Licencia</h3>
+      <p>Tu licencia aparecerá aquí tras el pago simulado.</p>
+      <input class="input" id="lic" readonly placeholder="LIC-XXXXXX">
+      <div class="flex" style="margin-top:8px">
+        <button class="btn" onclick="copiar()">📋 Copiar</button>
+        <button class="btn" onclick="descargar()">💾 Descargar .lic</button>
+        <a class="btn" href="../app/index.html">🛰️ Ir a App IoT</a>
+      </div>
+    </div></article>
+  </div>
+</main>
+<script>
+const fmtCLP = (n)=> new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
+const qp = new URLSearchParams(location.search);
+const cart = JSON.parse(decodeURIComponent(escape(atob(qp.get('cart')||'W10=')))); // []
+async function cargarResumen(){
+  const res = await fetch('../data/products.json'); const items = await res.json();
+  let total=0; let lines=['id,cantidad,precio,subtotal'];
+  cart.forEach(i=>{ const p=items.find(x=>x.id===i.id); const sub=p.price_clp*i.qty; total+=sub; lines.push([i.id,i.qty,fmtCLP(p.price_clp),fmtCLP(sub)].join(', ')); });
+  lines.push('Total: '+fmtCLP(total));
+  document.getElementById('resumen').textContent = lines.join('\n');
+}
+function genLic(){ return 'LIC-' + Math.random().toString(36).slice(2,8).toUpperCase() + '-' + Math.floor(Math.random()*1e6).toString().padStart(6,'0'); }
+function simular(metodo){
+  const k = genLic();
+  localStorage.setItem('license_key', k);
+  document.getElementById('lic').value = k;
+  alert('Pago simulado con '+metodo+'. Licencia generada.');
+}
+function whatsapp(){
+  const url = 'https://wa.me/56900000000?text='+encodeURIComponent('Quiero comprar Aeropónicos 3D. Carrito: '+JSON.stringify(cart));
+  window.open(url,'_blank');
+}
+function copiar(){ const el=document.getElementById('lic'); el.select(); document.execCommand('copy'); alert('Licencia copiada'); }
+function descargar(){
+  const k = document.getElementById('lic').value || localStorage.getItem('license_key') || 'LIC-XXXXXX';
+  const blob = new Blob([k], {type:'text/plain'}); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='license.lic'; a.click();
+}
+cargarResumen();
+</script>
+</body></html>

@@ -1,0 +1,75 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/img/icon-192.png">
+<title>Aeropónicos 3D — Tienda</title>
+<link rel="stylesheet" href="css/styles.css">
+<script defer src="js/app.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Aeropónicos 3D – 60 L (Pro)", "image": ["assets/img/aero60.jpg"], "description": "Sistema aeropónico impreso en 3D con bomba 12V/3A y 8 boquillas.", "brand": {"@type": "Brand", "name": "Aeropónicos 3D"}, "offers": {"@type": "Offer", "priceCurrency": "CLP", "price": "249000", "availability": "https://schema.org/InStock"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué cultivo puedo hacer?", "acceptedAnswer": {"@type": "Answer", "text": "Hojas, aromáticas y frutos pequeños."}}, {"@type": "Question", "name": "¿Necesito nutrientes especiales?", "acceptedAnswer": {"@type": "Answer", "text": "Usa soluciones A/B y ajusta EC/pH."}}]}</script>
+</head><body>
+<header><div class="container nav">
+  <div class="brand"><div class="logo"></div> Aeropónicos 3D — Tienda</div>
+  <nav class="flex">
+    <a class="btn" href="pages/faq.html">❓ FAQ</a>
+    <a class="btn" href="pages/specs.html">📐 Especificaciones</a>
+    <a class="btn" href="viewer3d/index.html">👁️ 3D</a>
+    <a class="btn" href="viewerAR/index.html">📱 AR</a>
+    <a class="btn" href="viewerVR/index.html">🥽 VR</a>
+    <a class="btn" href="pages/configurador.html">🛠️ Configurador</a>
+    <a class="btn" href="pages/casos.html">🎬 Casos</a>
+    <a class="btn" href="pages/financiamiento.html">💳 Financiamiento</a>
+    <a class="btn" href="app/index.html">🛰️ App IoT</a>
+  </nav>
+</div></header>
+
+<main class="container">
+  <section class="hero">
+    <div class="panel">
+      <h1>🌱 Aeropónicos 3D listos para cultivar</h1>
+      <p>Impresión 3D + componentes grado alimentario. Optimiza crecimiento, ahorra agua y monitorea tu cultivo con IoT.</p>
+      <div class="kpi">
+        <div class="item">💧 Ahorro de agua<br><b>hasta 95%</b></div>
+        <div class="item">⚡ Consumo<br><b>ultra eficiente</b></div>
+        <div class="item">🧪 Nutrientes<br><b>fácil dosificación</b></div>
+        <div class="item">🛠️ Repuestos<br><b>impresión 3D</b></div>
+      </div>
+      <div class="section">
+        <h3>🔍 Filtros rápidos</h3>
+        <div class="flex">
+          <select id="f-cap" class="input" onchange="filterProducts()">
+            <option value="">Capacidad mínima (L)</option>
+            <option value="30">≥ 30</option>
+            <option value="60">≥ 60</option>
+            <option value="120">≥ 120</option>
+          </select>
+          <input id="f-max" class="input" type="number" placeholder="Precio máximo (CLP)" oninput="filterProducts()">
+          <button class="btn" onclick="filterProducts()">🔎 Aplicar</button>
+        </div>
+      </div>
+      <div id="grid" class="grid" aria-live="polite"></div>
+    </div>
+    <aside class="panel">
+      <h3>🧮 Calculadora de nutrientes (A/B)</h3>
+      <div class="calculator">
+        <div><label>Volumen del depósito (L)</label><input id="calc-vol" class="input" type="number" value="60" oninput="updateCalculator()"></div>
+        <div><label>EC objetivo (mS/cm)</label><input id="calc-ec" class="input" type="number" step="0.1" value="1.8" oninput="updateCalculator()"></div>
+      </div>
+      <p id="calc-out" class="section mini"></p>
+      <hr style="border:1px solid #1f2937;border-width:0 0 1px 0">
+      <h3 style="margin-top:12px">🛒 Carrito</h3>
+      <div id="cart"></div>
+      <div style="margin-top:12px" class="flex">
+        <button class="btn solid" onclick="checkout()">✅ Continuar a pago</button>
+        <a class="btn" href="pages/contacto.html">📞 Contacto</a>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<div class="toast" role="status" aria-live="assertive"></div>
+<footer class="footer container">
+  <small>© <span id="year"></span> Aeropónicos 3D — Ñuble, Chile.</small>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear(); updateCalculator();</script>
+</body></html>
