@@ -1,1 +1,30 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><link rel='stylesheet' href='../css/styles.css'><title>Contacto</title></head><body><header><div class='container nav'><div class='brand'><div class='logo'></div> Aeropónicos 3D</div><nav class='flex'><a class='btn' href='../index.html'>🏠 Inicio</a></nav></div></header><main class='container section'><h1>Contacto</h1><form class='grid' onsubmit='send(event)'><input class='input' placeholder='Nombre' required><input class='input' placeholder='Correo' type='email' required><input class='input' placeholder='Teléfono' required><textarea class='input' placeholder='Mensaje' rows='4' required></textarea><button class='btn solid' type='submit'>Enviar</button></form><p class='mini'>También por WhatsApp: <a href='https://wa.me/56900000000' target='_blank'>+56 9 0000 0000</a></p></main><script>function send(e){e.preventDefault();alert('Gracias, te contactaremos.');}</script></body></html>
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto — Aeroponicos 3D</title><link rel="stylesheet" href="../css/styles.css"></head><body>
+<header><div class="container nav"><div class="brand"><div class="logo"></div> Aeroponicos 3D</div><nav class="flex">
+<a class="btn" href="../index.html">🏠 Inicio</a></nav></div></header>
+<main class="container section">
+  <h1>📞 Contacto</h1>
+  <form class="grid" onsubmit="sendMsg(event)">
+    <input class="input" placeholder="Nombre" id="n" required>
+    <input class="input" placeholder="Correo" id="e" type="email" required>
+    <input class="input" placeholder="Telefono" id="t" required>
+    <textarea class="input" placeholder="Mensaje" id="m" rows="4" required></textarea>
+    <button class="btn solid" type="submit">✉️ Enviar</button>
+  </form>
+  <p class="mini">Tambien por WhatsApp: <a href="https://wa.me/56900000000" target="_blank">+56 9 0000 0000</a></p>
+</main>
+<script>
+function sendMsg(ev){
+  ev.preventDefault();
+  const nombre = document.getElementById('n').value;
+  const correo = document.getElementById('e').value;
+  const tel = document.getElementById('t').value;
+  const msg = document.getElementById('m').value;
+  const texto = `Nombre: ${nombre}\nCorreo: ${correo}\nTelefono: ${tel}\nMensaje: ${msg}`;
+  const wa = `https://wa.me/56900000000?text=${encodeURIComponent('Consulta Aeroponicos 3D:\n\n'+texto)}`;
+  window.open(wa, '_blank');
+  alert('Gracias, te contactaremos pronto');
+}
+</script>
+</body></html>
